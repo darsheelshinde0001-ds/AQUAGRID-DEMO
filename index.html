@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gemini AI App</title>
+</head>
+<body>
+  <h2>Gemini AI (Google AI Studio)</h2>
+  <textarea id="input" placeholder="Ask something..." rows="4" cols="40"></textarea><br><br>
+  <button onclick="askGemini()">Ask</button>
+  <pre id="output"></pre>
+
+<script type="module">
+  import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+  async function askGemini() {
+    const userInput = document.getElementById("input").value;
+    const output = document.getElementById("output");
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const result = await model.generateContent(userInput);
+    output.textContent = result.response.text();
+  }
+</script>
+
+</body>
+</html>
